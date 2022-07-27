@@ -1,0 +1,31 @@
+version: "3.9"
+
+services:
+  csv-service:
+    container_name: csv_backend
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./.bin/:/root/
+    env_file:
+      - .env
+    depends_on:
+      - csv-db
+    restart: on-failure
+  csv-db:
+    container_name: csv_db
+    image: postgres:13-alpine
+    ports:
+      - "5432:5432"
+    volumes:
+      - pg_data:/var/lib/postgresql/data/
+    environment:
+      - POSTGRES_PASSWORD=qwerty123
+    restart: on-failure
+volumes:
+  pg_data:
+
+
